@@ -1,0 +1,94 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <!-- Add some CSS to change client UI -->
+    <style>
+        body {
+            background-color: #232F3E;
+        }
+
+        label, button {
+            color: #FF9900;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin-left: 40px;
+        }
+
+        input {
+            color: #232F3E;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin-left: 20px;
+        }
+    </style>
+
+    <script>
+        var myHeaders = new Headers();
+        // add content type header to object
+       	myHeaders.append("Content-Type", "application/json");
+       
+        // create a JSON object with parameters for API call and store in a variable
+        var requestOptions = {
+            	method: 'GET',
+            	headers: myHeaders,
+        };
+        
+        var response = fetch("http://127.0.0.1:7000/getcomment", requestOptions);
+        var data = response.json();
+        
+        document.getElementById("flag").innerHTML = data.flag;
+        document.getElementById("bpcomment").innerHTML = data.bpcomment;
+        document.getElementById("apcomment").innerHTML = data.apcomment;
+        
+    </script>
+
+</head>
+<body>
+
+   <div class="container">
+        <input id="url_usr_id" value="{{ user_id }}" />
+        <div class="section editor">
+            <div>
+                <span>Person ID:</span>
+                <span id="user_id"></span>
+            </div>
+            <label for="bpcomment">Entered Comment
+                <input id="bpcomment" type="text" />
+            </label>
+            <br />
+            <label for="apcomment">Processed Comment
+                <input id="apcomment" type="text" />
+            </label>
+            <br />
+            <label for="flag">flag
+                <input id="flag" type="text" />
+            </label>
+            <br />
+            <button id="create">Create</button>
+            <button id="update">Update</button>
+            <button id="delete">Delete</button>
+            <button id="reset">Reset</button>
+        </div>
+        <div class="comments">
+            <table>
+                <caption>Comments</caption>
+                <thead>
+                    <tr>
+                        <th>Creation/Update Timestamp</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="error"></div>
+    </div>
+    <div class="error">
+    </div>
+</body>
+</html>
+
+
+'

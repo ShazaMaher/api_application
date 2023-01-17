@@ -1,0 +1,141 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <!-- Add some CSS to change client UI -->
+    <style>
+        body {
+            background-color: #232F3E;
+        }
+
+        label, button {
+            color: #FF9900;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin-left: 40px;
+        }
+
+        input {
+            color: #232F3E;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin-left: 20px;
+        }
+    </style>
+    
+    
+    <script>
+        // define the callAPI function that takes a first name and last name as parameters
+        var callAPI = (userId, fname, lname, language, comment) => {
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({ "userId": userId ,"fname": fname, "lname": lname, "language": language,"comment": comment});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("/addcomment", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+        
+        
+         
+        function getallcomment(){
+		var options = {
+		    method: "GET",
+		    cache: "no-cache",
+		    headers: {
+		        "Content-Type": "application/json"
+		    }
+		};
+        	// Call the REST endpoint and wait for data
+        	var response = fetch("http://127.0.0.1:7000/getallcomments", options);
+        	var data =  response.json();
+        	return data;
+    	}
+    	
+    	 function getoneusercomment(userId){
+		var options = {
+		    method: "GET",
+		    cache: "no-cache",
+		    headers: {
+		        "Content-Type": "application/json"
+		    }
+		};
+        	// Call the REST endpoint and wait for data
+        	var response = fetch(`/http://127.0.0.1:7000/getoneusercomments/${userId}`, options);
+        	var data =  response.json();
+        	return data;
+    	}
+            
+
+
+	/***
+	 var update(userId, commentId, data){
+	 
+	  fetch(`/http://127.0.0.1:7000/updatecomment/user/${userId}/comments/${commentId}`, {
+	    method: 'PUT',
+	    body: JSON.stringify({
+	     data
+	    })
+	  }).then((response) => {
+	    response.json().then((response) => {
+	      console.log(response);
+	    })
+	  }).catch(err => {
+	    console.error(err)
+	  });}
+	
+
+    var delete(userId, commentId) {
+    	fetch(`/http://127.0.0.1:7000/deletecomment/user/${userId}/comments/${commentId}`, {
+   	method: 'DELETE'
+  	}).then(() => {console.log('removed');
+        }).catch(err => {
+    	console.error(err)
+  	});}***/
+
+     
+       
+    </script>
+
+</head>
+<body>
+    <form >
+    
+    	<label>  User ID :</label>
+        <input type="text" id="userId">
+        
+    	<label> Your first user :</label>
+        <input type="text" id="fname">
+        
+        <label> Enter your last user :</label>
+        <input type="text" id="lname">
+        
+    	<label> Enter your language :</label>
+        <input type="text" id="language">
+    	
+       
+        <label> Enter your comment :</label>
+        <input type="text" id="comment">
+       
+        <!-- set button action="/addcomment" method="POST" onClick method to call function we defined passing input values as parameters -->
+        <button type="button"  onclick="callAPI(document.getElementById('userId').value, document.getElementById('fname').value, document.getElementById('lname').value, document.getElementById('language').value, document.getElementById('comment').value)">Call API</button>
+        
+    <dev></dev>  
+    </form>
+</body>
+</html>
+
+
